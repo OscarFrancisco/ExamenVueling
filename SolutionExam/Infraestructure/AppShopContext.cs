@@ -14,7 +14,6 @@ namespace Infraestructure
         public DbSet<Article> Articles { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public AppShopContext():base("DefaultConnection"){
-            var t = this.Database.Connection.ConnectionString;
         }
         public IDbSet<TEntity> GetSet<TEntity>() where TEntity : class
         {
