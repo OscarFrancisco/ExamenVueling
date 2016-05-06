@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    [Table("Aritcle")]
-    public class Article : EntityBase
+    [Table("UserProfile")]
+    public class UserProfile
     {
-		public string Description {get; set;}
-        public decimal Price { get; set;}
-
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+        public string UserName { get; set; }
     }
 }
