@@ -20,42 +20,59 @@ namespace UnitaryTest
     public class TicketTest 
     {
         private MockFactory _factory = new MockFactory();
+        private const int PRUEBATEST = 1;
+        private Ticket _pruebaTestticket;
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _factory.VerifyAllExpectationsHaveBeenMet();
+            _factory.ClearExpectations();
+        }
+        [TestInitialize]
+        public void Initialize()
+        {
+            var saleArticle = new SaleArticle()
+                                    {
+                                        Id = 1,
+                                        PriceSale = 10,
+                                        Quantity = 5,
+                                        ArticleSale = new Article()
+                                                        {
+                                                            Id = 1
+                                                        }
+                                    }; 
+            _pruebaTestticket = new Ticket()
+                                    {
+                                        Id = 1,
+                                        Articles = new List<SaleArticle>(){saleArticle}
+                                    };
+        }
         [TestMethod]
         public void TestingTicketGetAll()
         {
-            var pruebaTest = 1;
-            var pruebaTestticket = new Ticket(){
-                                        Id = 1,
-                                        Articles = new List<SaleArticle>()
-                                        {
-                                            new SaleArticle()
-                                                    {
-                                                    Id = 1,
-                                                    PriceSale = 10,
-                                                    Quantity = 5,
-                                                    ArticleSale = new Article()
-                                                    {
-                                                        Id = 1
-                                                    }
-                                                }
-                                        }
-                                    };
-           // Arrange
             var repository = _factory.CreateMock<IRepositoryTicket>();
             var unitOfWork = _factory.CreateMock<IUnitOfWork>();
             var ticketService = new ServiceTicket(repository.MockObject, unitOfWork.MockObject);
-            var tickets = new HashSet<Ticket>() {
-                pruebaTestticket
-            };
+            // Arrange
+            var tickets = new HashSet<Ticket>() { _pruebaTestticket };
             repository.Expects.One.Method(c => c.GetAll()).WillReturn(tickets);
-            repository.Expects.One.Method(c => c.Get(pruebaTest)).WillReturn(pruebaTestticket);
-            unitOfWork.Expects.One.Method(c => c.Dispose());
             //Act
-            var result = ticketService.GetAll().ToList();
-            ticketService.Add(pruebaTestticket);
+            var result = new List<Ticket>(ticketService.GetAll());
             //Assert
-            Assert.AreEqual(pruebaTest, result.Count());
-            Assert.AreEqual(pruebaTestticket, result[0]);
+            Assert.AreEqual(PRUEBATEST, result.Count());
+        }
+        [TestMethod]
+        public void TestingTicketGet()
+        {
+            var repository = _factory.CreateMock<IRepositoryTicket>();
+            var unitOfWork = _factory.CreateMock<IUnitOfWork>();
+            var ticketService = new ServiceTicket(repository.MockObject, unitOfWork.MockObject);
+            // Arrange
+            repository.Expects.One.Method(c => c.Get(1)).WillReturn(_pruebaTestticket);
+            //Act
+            var result = ticketService.Get("1");
+            //Assert
+            Assert.AreEqual(PRUEBATEST, result == null ? 0 : 1);
         }
     }
 }

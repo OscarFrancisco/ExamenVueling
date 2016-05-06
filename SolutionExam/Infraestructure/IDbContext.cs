@@ -10,6 +10,6 @@ namespace Infraestructure
     public interface IDbContext
     {
         IDbSet<TEntity> GetSet<TEntity>() where TEntity : class;
-        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        //DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     }
 }

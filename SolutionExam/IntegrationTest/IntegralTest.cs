@@ -3,38 +3,39 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceWCF;
 using System.Collections.Generic;
 using Infraestructure;
+using Domain;
 
 namespace IntegrationTest
 {
     [TestClass]
     public class IntegralTest
     {
-        private ServiceBase _serviceBase;
-        private readonly int MOVIECOUNT = 1;
-        private IEnumerable<dynamic> integral;
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-            using (var ctx = new AppShopContext())
-            {
-                //ctx.Tickets.
-                /*ctx.Products.Add(new Product() { Name = "Naranjas" });
-                ctx.SaveChanges();*/
-            }
-            /*var result = _productController.Index() as ViewResult;
-            var movies = result.Model as IEnumerable<Product>;
-            Assert.AreEqual(MOVIECOUNT, movies.ToList().Count);*/
-        }
+        private ServiceArticle _serviceArticle;
+        private readonly int ARTICLECOUNT = 1;
+        private IEnumerable<Article> _articles;
         [TestInitialize]
         public void SetUp()
         {
-            using (var ctx = new AppShopContext())
+            using (var context = new AppShopContext())
             {
-                if (ctx.Database.Exists())
-                    ctx.Database.Delete();
-                ctx.Database.Create();
-            } 
+                _serviceArticle = new ServiceArticle(new RepositoryArticle(context), context);
+                if (context.Database.Exists())
+                {
+                    context.Database.Delete();
+                }
+                context.Database.Create();
+            }
         } 
+        [TestMethod]
+        public void TestMethodIntegrationArticle()
+        {
+            using (var context = new AppShopContext())
+            {
+                context.Articles.Add(new Article() { Id = 1, Description = "Naranjitas", Price = 15 });
+                context.SaveChanges();
+            }
+            var result = new List<Article>(_serviceArticle.GetAll());
+            Assert.AreEqual(ARTICLECOUNT, result.Count);
+        }
     }
 }

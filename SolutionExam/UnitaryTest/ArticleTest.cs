@@ -20,10 +20,15 @@ namespace UnitaryTest
     public class ArticleTest  
     { 
         private MockFactory _factory = new MockFactory();
+        private const int PRUEBATEST = 1;
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _factory.ClearExpectations();
+        }
         [TestMethod]
         public void TestingArticleGetAll()
         {
-            var pruebaTest = 1;
             var article = new Article() { Id = 1, Price = 15, Description = "NARANJITAS" };
             // Arrange
             var repository = _factory.CreateMock<IRepositoryArticle>();
@@ -35,9 +40,10 @@ namespace UnitaryTest
             repository.Expects.One.Method(c => c.GetAll()).WillReturn(articles);
             unitOfWork.Expects.One.Method(c => c.Dispose());
             //Act
-            var result = articleService.GetAll().ToList();
+            var result = new List<Article>(articleService.GetAll());
             //Assert
-            Assert.AreEqual(pruebaTest, result.Count());
+            Assert.AreEqual(PRUEBATEST, result.Count());
+            Assert.AreEqual(article, result[0]);
         }
     }
 }
