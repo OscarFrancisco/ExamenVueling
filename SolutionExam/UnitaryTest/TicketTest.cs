@@ -70,7 +70,7 @@ namespace UnitaryTest
             // Arrange
             repository.Expects.One.Method(c => c.Get(1)).WillReturn(_pruebaTestticket);
             //Act
-            var result = ticketService.Get("1");
+            var result = ticketService.Get(1);
             //Assert
             Assert.AreEqual(PRUEBATEST, result == null ? 0 : 1);
         }

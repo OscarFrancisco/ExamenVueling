@@ -23,5 +23,9 @@ namespace Infraestructure
         {
             return Entity;
         }
+        public void Update(Ticket ticket)
+        {
+            Modify(ticket);
+        }
     }
 }

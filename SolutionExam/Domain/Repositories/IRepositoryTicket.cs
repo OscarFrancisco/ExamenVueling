@@ -11,5 +11,6 @@ namespace Domain
         Ticket Add(Ticket ticket);
         Ticket Get(int id);
         IEnumerable<Ticket> GetAll();
+        void Update(Ticket ticket);
     }
 }
