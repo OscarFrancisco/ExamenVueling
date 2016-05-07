@@ -21,26 +21,35 @@ namespace UnitaryTest
     { 
         private MockFactory _factory = new MockFactory();
         private const int PRUEBATEST = 1;
+        private Mock<IRepositoryArticle> _repository;
+        private Mock<IUnitOfWork> _unitOfWork;
+        private IServiceArticle _articleService;
         [TestCleanup]
         public void Cleanup()
         {
             _factory.ClearExpectations();
+            _repository.ClearExpectations();
+            _unitOfWork.ClearExpectations();
+        }
+        [TestInitialize]
+        public void Initialize()
+        {
+            _repository = _factory.CreateMock<IRepositoryArticle>();
+            _unitOfWork = _factory.CreateMock<IUnitOfWork>();
+            _articleService = new ServiceArticle(_repository.MockObject, _unitOfWork.MockObject);
         }
         [TestMethod]
         public void TestingArticleGetAll()
         {
             var article = new Article() { Id = 1, Price = 15, Description = "NARANJITAS" };
             // Arrange
-            var repository = _factory.CreateMock<IRepositoryArticle>();
-            var unitOfWork = _factory.CreateMock<IUnitOfWork>();
-            var articleService = new ServiceArticle(repository.MockObject, unitOfWork.MockObject);
             var articles = new HashSet<Article>() {
                 article
             };
-            repository.Expects.One.Method(c => c.GetAll()).WillReturn(articles);
-            unitOfWork.Expects.One.Method(c => c.Dispose());
+            _repository.Expects.One.Method(c => c.GetAll()).WillReturn(articles);
+            _unitOfWork.Expects.One.Method(c => c.Dispose());
             //Act
-            var result = new List<Article>(articleService.GetAll());
+            var result = new List<Article>(_articleService.GetAll());
             //Assert
             Assert.AreEqual(PRUEBATEST, result.Count());
             Assert.AreEqual(article, result[0]);
