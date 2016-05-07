@@ -12,65 +12,12 @@ namespace APPWebMvc.Controllers
 {
     public class TicketController : Controller
     {
+        private readonly IHttpClientSync _httpclient = new HttpClientSync();
         public async Task<ActionResult> Index()
         {
-            HttpClient _httpclient = new HttpClient();
             var task = await _httpclient.GetAsync("http://localhost:1228/ServiceArticle.svc/");
             var jsonString = await task.Content.ReadAsStringAsync();
-            var model = JsonConvert.DeserializeObject<Article>(jsonString);
-            return View(model);
+            return View(_httpclient.GetListArticlesJson<Article>(jsonString));
         }
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-        public ActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-    }
+   }
 }
