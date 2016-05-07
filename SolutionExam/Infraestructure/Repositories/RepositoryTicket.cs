@@ -21,7 +21,7 @@ namespace Infraestructure
         }
         public IEnumerable<Ticket> GetAll()
         {
-            return Entity;
+            return Entity.Select(_ => _).ToList();
         }
         public void Update(Ticket ticket)
         {

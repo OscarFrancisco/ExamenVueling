@@ -12,7 +12,7 @@ namespace Infraestructure
         public RepositoryArticle(IDbContext context) : base(context) { }
         public IEnumerable<Article> GetAll()
         {
-            return Entity.Select(_ => _);
+            return Entity.Select(_ => _).ToList();
         }
     }
 }
