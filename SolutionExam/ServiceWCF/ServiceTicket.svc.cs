@@ -31,9 +31,11 @@ namespace ServiceWCF
             Save();
             return ticketnew;
         }
-        public Ticket Get(int id)
+        public Ticket Get(string id)
         {
-            return _repository.Get(id);
+            int OutId;
+            int.TryParse(id, out OutId);
+            return _repository.Get(OutId);
         }
         public IEnumerable<Ticket> GetAll()
         {

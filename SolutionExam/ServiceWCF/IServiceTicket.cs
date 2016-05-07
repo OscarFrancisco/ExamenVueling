@@ -18,7 +18,7 @@ namespace ServiceWCF
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "/{id}", ResponseFormat = WebMessageFormat.Json)]
-        Ticket Get(int id);
+        Ticket Get(string id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "", ResponseFormat = WebMessageFormat.Json)]
