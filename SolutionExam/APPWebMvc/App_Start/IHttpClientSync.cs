@@ -10,6 +10,6 @@ namespace APPWebMvc
     public interface IHttpClientSync : IDisposable
     {
         Task<HttpResponseMessage> GetAsync(string requestUri);
-        IEnumerable<T> GetListArticlesJson<T>(string jsonString);
+        IEnumerable<T> GetListJson<T>(string jsonString);
     }
 }

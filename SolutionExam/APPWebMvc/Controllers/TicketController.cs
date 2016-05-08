@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,9 +16,20 @@ namespace APPWebMvc.Controllers
         private readonly IHttpClientSync _httpclient = new HttpClientSync();
         public async Task<ActionResult> Index()
         {
-            var task = await _httpclient.GetAsync("http://localhost:1228/ServiceArticle.svc/");
-            var jsonString = await task.Content.ReadAsStringAsync();
-            return View(_httpclient.GetListArticlesJson<Article>(jsonString));
+            try
+            {
+                ViewBag.Title = ViewBag.Message = "Venta de Articulos";
+                var task = await _httpclient.GetAsync(ConfigurationManager.AppSettings["URLServiceArticle"]);
+                var jsonString = await task.Content.ReadAsStringAsync();
+                return View(_httpclient.GetListJson<Article>(jsonString));
+            }
+            catch(Exception)
+            {
+                ViewBag.Title = "Error al obtener informacion de los Articulos";
+                ViewBag.Message = string.Empty;
+                return View(new List<Article>());
+            }
+
         }
    }
 }

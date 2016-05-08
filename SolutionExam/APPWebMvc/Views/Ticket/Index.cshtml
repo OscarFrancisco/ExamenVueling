@@ -1,50 +1,51 @@
 ﻿@model IEnumerable<Domain.Article>
-@{
-    ViewBag.Title = "Index";
-}
-<script src="~/Scripts/Ticket.js"></script>
-<h2>Venta de Articulos</h2>
-<table style="width:100%">
-    <tr style="width:100%">
-        @foreach (var item in Model)
+<h2 >@ViewBag.Title</h2>
+@if (string.Compare(@ViewBag.Message, string.Empty) != 0)
+{
+    <script src="~/Scripts/Ticket.js"></script>
+    
+    <table style="width:100%">
+        <tr style="width:100%">
+            @foreach (var item in Model)
             {
-            <td>
-                <div>@Html.DisplayFor(modelItem => item.Description)</div>
-                <div>@Html.DisplayFor(modelItem => item.Price)</div>
-                <div>
-                    <input type="text" id="txt_@Html.DisplayFor(modelItem => item.Id)" style="width:100px" />
-                    <input type="submit" id="btn_@Html.DisplayFor(modelItem => item.Id)" value="Comprar" />
-                </div>
-            </td>
-        }
-    </tr>
-    <tr>
-        <table>
-            <colgroup>
-                <col style="width:5%" />
-                <col style="width:20%" />
-                <col style="width:15%" />
-                <col style="width:15%" />
-                <col style="width:15%" />
-            </colgroup>
-            <tr>
-                <td><strong>Item</strong></td>
-                <td><strong>Descripcion</strong></td>
-                <td><strong>Precio Unitario</strong></td>
-                <td><strong>Cantidad</strong></td>
-                <td><strong>Total</strong></td>
-            </tr>
-            <tbody></tbody>
-            <tfoot>
+                <td>
+                    <div>@Html.DisplayFor(modelItem => item.Description)</div>
+                    <div>@Html.DisplayFor(modelItem => item.Price)</div>
+                    <div>
+                        <input type="text" id="txt_@Html.DisplayFor(modelItem => item.Id)" style="width:100px" />
+                        <input type="submit" id="btn_@Html.DisplayFor(modelItem => item.Id)" value="Comprar" />
+                    </div>
+                </td>
+            }
+        </tr>
+        <tr>
+            <table>
+                <colgroup>
+                    <col style="width:5%" />
+                    <col style="width:20%" />
+                    <col style="width:15%" />
+                    <col style="width:15%" />
+                    <col style="width:15%" />
+                </colgroup>
                 <tr>
-                    <td colspan="4" style="text-align:right">Total Ticket:</td>
-                    <td><strong>0.00</strong></td>
+                    <td><strong>Item</strong></td>
+                    <td><strong>Descripcion</strong></td>
+                    <td><strong>Precio Unitario</strong></td>
+                    <td><strong>Cantidad</strong></td>
+                    <td><strong>Total</strong></td>
                 </tr>
-                <tr>
-                    <td colspan="5" style="text-align:right"><input type="submit" id="btn_Comprar" value="Vender Ticket" /></td>
-                </tr>
-            </tfoot>
-        </table>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align:right">Total Ticket:</td>
+                        <td><strong>0.00</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:right"><input type="submit" id="btn_Comprar" value="Vender Ticket" /></td>
+                    </tr>
+                </tfoot>
+            </table>
 
-    </tr>
-</table>
+        </tr>
+    </table>
+}

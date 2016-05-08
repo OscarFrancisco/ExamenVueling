@@ -11,9 +11,9 @@ namespace APPWebMvc
     {
         public HttpClientSync() : base() { }
         private const string JSONEMPTY = "[]";
-        public IEnumerable<T> GetListArticlesJson<T>(string jsonString)
+        public IEnumerable<T> GetListJson<T>(string jsonString)
         {
-            if (JSONEMPTY == jsonString)
+            if (JSONEMPTY != jsonString)
                 return JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
             return new List<T>();
         }
