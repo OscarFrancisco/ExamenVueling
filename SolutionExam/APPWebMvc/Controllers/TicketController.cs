@@ -13,12 +13,17 @@ namespace APPWebMvc.Controllers
 {
     public class TicketController : Controller
     {
-        private readonly IHttpClientSync _httpclient = new HttpClientSync();
+        private readonly IHttpClientSync _httpclient;
+        public TicketController()
+        {
+            _httpclient = new HttpClientSync();
+            ViewBag.Title = ViewBag.Message = "Venta de Articulos";
+            ViewBag.CORSTicket = ConfigurationManager.AppSettings["URLServiceTicket"];
+        }
         public async Task<ActionResult> Index()
         {
             try
             {
-                ViewBag.Title = ViewBag.Message = "Venta de Articulos";
                 var task = await _httpclient.GetAsync(ConfigurationManager.AppSettings["URLServiceArticle"]);
                 var jsonString = await task.Content.ReadAsStringAsync();
                 return View(_httpclient.GetListJson<Article>(jsonString));
