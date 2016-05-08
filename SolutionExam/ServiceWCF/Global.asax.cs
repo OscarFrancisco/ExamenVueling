@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Infraestructure;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -12,6 +14,7 @@ namespace ServiceWCF
         protected void Application_Start(object sender, EventArgs e)
         {
             AutofacConfig.RegisterAutofac();
+            Database.SetInitializer<AppShopContext>(new ArticleInitializer());
         }
         protected void Application_BeginRequest(object sender, EventArgs e)
         {

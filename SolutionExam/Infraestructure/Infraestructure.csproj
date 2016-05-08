@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationDataBase\ArticleInitializer.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
